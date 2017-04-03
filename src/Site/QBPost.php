@@ -209,8 +209,8 @@ class QBPost
 
 		$config = $this->config;
 
-		if (isset($config['opts']) && isset($config['opts'][$name])) {
-			return $config['opts'][$name];
+		if (isset($config['options']) && isset($config['options'][$name])) {
+			return $config['options'][$name];
 		}
 
 		return false;

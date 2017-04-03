@@ -286,7 +286,7 @@ class QBSite
 
 		$config = $this->config;
 
-		if (isset($config['options']) && isset($config['opts'][$name])) {
+		if (isset($config['options']) && isset($config['options'][$name])) {
 			return $config['options'][$name];
 		}
 
