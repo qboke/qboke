@@ -18,6 +18,10 @@ class QBPost
 	private $date;
 	private $tags;
 	private $content;
+	private $yfm = [ // YAML Front Matter
+		['---', '---'],
+		['<!--', '-->'],
+	];
 
 	public function __construct($parent, $name)
 	{
@@ -241,10 +245,22 @@ class QBPost
 
 		$fline = fgets($fh);
 
-		if ($fline !== false && trim($fline) === '<!--') {
-			while (($line = fgets($fh)) !== false) {
-				if (trim($line) === '-->') {
+		if ($fline !== false) {
+			$left = rtrim($fline);
+			$right = null;
+
+			foreach ($this->yfm as $yfm) {
+				if ($left == $yfm[0]) {
+					$right = $yfm[1];
 					break;
+				}
+			}
+
+			if ($right !== null) {
+				while (($line = fgets($fh)) !== false) {
+					if (rtrim($line) === $right) {
+						break;
+					}
 				}
 			}
 
@@ -293,14 +309,28 @@ class QBPost
 
 		$fline = fgets($fh);
 
-		if ($fline === false || trim($fline) !== '<!--') {
+		if ($fline === false) {
+			return false;
+		}
+
+		$left = rtrim($fline);
+		$right = null;
+
+		foreach ($this->yfm as $yfm) {
+			if ($left == $yfm[0]) {
+				$right = $yfm[1];
+				break;
+			}
+		}
+
+		if ($right === null) {
 			return false;
 		}
 
 		$config = '';
 
 		while (($line = fgets($fh)) !== false) {
-			if (trim($line) === '-->') {
+			if (rtrim($line) === $right) {
 				break;
 			}
 
