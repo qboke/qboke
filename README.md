@@ -56,7 +56,7 @@ git 是怎么自动通知 QBoke 最新更新的呢？答案是 POST 钩子。你
 
 如果你有什么意见或建议，或者发现了 QBoke 的问题，欢迎访问如下链接进行提交：
 
-<https://github.com/solicomo/qboke/issues>
+<https://github.com/qboke/qboke/issues>
 
 或者通过一下方式进行联系：
 
