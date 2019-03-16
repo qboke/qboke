@@ -17,7 +17,7 @@
 				?> <a href="<?php echo $site->url(); ?>"><?php echo $site->name(); ?></a>
 				</span>
 				<span id="powered">
-				Proudly powered by <a href="http://www.qboke.org" target="_blank">QBoke</a>.
+				Proudly powered by <a href="https://qboke.solicomo.com" target="_blank">QBoke</a>.
 				</span>
 				<?php echo $site->options('footer'); ?>
 			</div>

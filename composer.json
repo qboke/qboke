@@ -2,7 +2,7 @@
 	"name": "soli/qboke",
 	"description": "Plain and Simple.",
 	"keywords": ["blog", "markdown", "git", "php"],
-	"homepage": "http://www.qboke.org",
+	"homepage": "https://qboke.solicomo.com",
 	"type": "library",
 	"license": "BSD-2-Clause",
 	"authors": [
