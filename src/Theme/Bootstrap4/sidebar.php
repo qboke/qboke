@@ -50,7 +50,7 @@ $sidebars = qb_options('sidebar');
 		?> <a href="<?php echo $site->url(); ?>"><?php echo $site->name(); ?></a>
 		</div>
 		<div id="powered">
-		Proudly powered by <a href="http://www.qboke.org" target="_blank">QBoke</a>.
+		Proudly powered by <a href="https://qboke.solicomo.com" target="_blank">QBoke</a>.
 		</div>
 		<?php echo qb_options('footer'); ?>
 	</div>
