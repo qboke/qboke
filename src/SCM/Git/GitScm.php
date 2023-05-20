@@ -1,18 +1,18 @@
 <?php
 /**
- * author: Soli <soli@qq.com>
+ * author: Soli <soli@cbug.org>
  * date  : 2013-06-04
  */
 namespace QBoke\SCM\Git;
 
-use Gitter\Client;
-use Gitter\Repository;
 use QBoke\SCM\QBScm;
+use CzProject\GitPhp\Git;
 
 class GitScm extends QBScm
 {
 	private $cli  = null;
 	private $repo = null;
+	private $args = [];
 
 	public function __construct()
 	{
@@ -20,7 +20,6 @@ class GitScm extends QBScm
 
 	public function init($path, $opts)
 	{
-		$git = null;
 		if (array_key_exists('pkey', $opts) && strlen($opts['pkey']) > 0) {
 			$pkey = $opts['pkey'];
 			if (substr($pkey, 0, 1) != '/') {
@@ -28,27 +27,19 @@ class GitScm extends QBScm
 			}
 
 			$pkey = realpath($pkey);
-			$git  = realpath(__DIR__ . '/git.sh');
-
-			$git = "$git -i $pkey";
+			$this->args[] = ['-c', "core.sshCommand=\"ssh -i '$pkey' -o IdentitiesOnly=yes\""];
 		}
 
-		$this->cli = new Client($git);
-
 		try {
-			$this->repo = $this->cli->getRepository($path);
-			return true;
-		} catch (\Exception $e) {
-			trigger_error( print_r($e), E_USER_WARNING );
-		}
+			$this->cli = new Git();
 
-		//
-		try {
-			//mkdir($path, 0, true);
-			$this->repo = new Repository($path, $this->cli);
-			$this->cli->run($this->repo, "clone {$opts['remote']} '{$path}'");
-			$this->repo->checkout($opts['branch']);
+			if (file_exists($path . '/.git/HEAD')) {
+				$this->repo = $this->cli->open($path);
+			} else {
 
+				$this->repo = $this->cli->cloneRepository($opts['remote'], $path, $this->args);
+				$this->repo->checkout($opts['branch']);
+			}
 			return true;
 		} catch (\Exception $e) {
 			trigger_error( print_r($e), E_USER_ERROR );
@@ -64,7 +55,7 @@ class GitScm extends QBScm
 		}
 
 		try {
-			$this->repo->pull();
+			$this->repo->pull(null, $this->args);
 			return true;
 		} catch (\Exception $e) {
 			trigger_error( print_r($e), E_USER_ERROR );
@@ -80,11 +71,11 @@ class GitScm extends QBScm
 
 		try {
 			if ($param === true) {
-				$this->repo->addAll();
+				$this->repo->addAllChanges();
 				return true;
 			}
 
-			$this->repo->add($param);
+			$this->repo->addFile($param);
 			return true;
 		} catch (\Exception $e) {
 			trigger_error( print_r($e), E_USER_ERROR );
@@ -99,13 +90,7 @@ class GitScm extends QBScm
 		}
 
 		try {
-			if (is_array($param)) {
-				$files = implode(' ', array_map('escapeshellarg', $param));
-			} else {
-				$files = escapeshellarg($param);
-			}
-
-			$this->cli->run($this->repo, "rm $files");
+			$this->repo->removeFile($param);
 			return true;
 		} catch (\Exception $e) {
 			trigger_error( print_r($e), E_USER_ERROR );
@@ -119,7 +104,7 @@ class GitScm extends QBScm
 			return false;
 		}
 		try {
-			$this->repo->push();
+			$this->repo->push(null, $this->args);
 			return true;
 		} catch (\Exception $e) {
 			trigger_error( print_r($e), E_USER_ERROR );
