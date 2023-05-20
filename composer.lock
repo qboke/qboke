@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d322544d66ad3ff9ebe43aed462a1d6e",
+    "content-hash": "3776a21d060f72ec567d8a88783b184a",
     "packages": [
         {
             "name": "czproject/git-php",
-            "version": "v4.1.0",
+            "version": "dev-soli/addconfig",
             "source": {
                 "type": "git",
-                "url": "https://github.com/czproject/git-php.git",
-                "reference": "bb195e30442bc5206b30fa9a304e20ea8e96458f"
+                "url": "https://github.com/solicomo/git-php.git",
+                "reference": "b53b3acd4557aeee20c7c7bae8a3492ff74a51b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/czproject/git-php/zipball/bb195e30442bc5206b30fa9a304e20ea8e96458f",
-                "reference": "bb195e30442bc5206b30fa9a304e20ea8e96458f",
+                "url": "https://api.github.com/repos/solicomo/git-php/zipball/b53b3acd4557aeee20c7c7bae8a3492ff74a51b5",
+                "reference": "b53b3acd4557aeee20c7c7bae8a3492ff74a51b5",
                 "shasum": ""
             },
             "require": {
@@ -32,7 +32,6 @@
                     "src/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -47,16 +46,15 @@
                 "git"
             ],
             "support": {
-                "issues": "https://github.com/czproject/git-php/issues",
-                "source": "https://github.com/czproject/git-php/tree/v4.1.0"
+                "source": "https://github.com/solicomo/git-php/tree/soli/addconfig"
             },
             "funding": [
                 {
-                    "url": "https://www.paypal.com/donate?hosted_button_id=EPSKR7MGVV7KC",
-                    "type": "custom"
+                    "type": "other",
+                    "url": "https://www.janpecha.cz/donate/git-php/"
                 }
             ],
-            "time": "2022-12-10T18:23:32+00:00"
+            "time": "2023-05-20T21:28:13+00:00"
         },
         {
             "name": "michelf/php-markdown",
@@ -274,7 +272,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "czproject/git-php": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

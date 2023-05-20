@@ -12,7 +12,6 @@ class GitScm extends QBScm
 {
 	private $cli  = null;
 	private $repo = null;
-	private $args = [];
 
 	public function __construct()
 	{
@@ -20,6 +19,7 @@ class GitScm extends QBScm
 
 	public function init($path, $opts)
 	{
+		$pkey = null;
 		if (array_key_exists('pkey', $opts) && strlen($opts['pkey']) > 0) {
 			$pkey = $opts['pkey'];
 			if (substr($pkey, 0, 1) != '/') {
@@ -27,17 +27,20 @@ class GitScm extends QBScm
 			}
 
 			$pkey = realpath($pkey);
-			$this->args[] = ['-c', "core.sshCommand=\"ssh -i '$pkey' -o IdentitiesOnly=yes\""];
 		}
 
 		try {
 			$this->cli = new Git();
 
+			if ($pkey != null) {
+				$this->cli->addConfig('core.sshCommand', "ssh -i '$pkey' -o IdentitiesOnly=yes");
+			}
+
 			if (file_exists($path . '/.git/HEAD')) {
 				$this->repo = $this->cli->open($path);
 			} else {
 
-				$this->repo = $this->cli->cloneRepository($opts['remote'], $path, $this->args);
+				$this->repo = $this->cli->cloneRepository($opts['remote'], $path);
 				$this->repo->checkout($opts['branch']);
 			}
 			return true;
@@ -55,7 +58,7 @@ class GitScm extends QBScm
 		}
 
 		try {
-			$this->repo->pull(null, $this->args);
+			$this->repo->pull();
 			return true;
 		} catch (\Exception $e) {
 			trigger_error( print_r($e), E_USER_ERROR );
@@ -104,7 +107,7 @@ class GitScm extends QBScm
 			return false;
 		}
 		try {
-			$this->repo->push(null, $this->args);
+			$this->repo->push();
 			return true;
 		} catch (\Exception $e) {
 			trigger_error( print_r($e), E_USER_ERROR );
