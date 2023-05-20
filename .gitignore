@@ -7,3 +7,4 @@ data
 public
 cache
 *.sublime-*
+*.code-workspace
