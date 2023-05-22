@@ -33,7 +33,7 @@ class GitScm extends QBScm
 			$this->cli = new Git();
 
 			if ($pkey != null) {
-				$this->cli->addConfig('core.sshCommand', "ssh -i '$pkey' -o IdentitiesOnly=yes");
+				$this->cli->addConfig('core.sshCommand', "ssh -i '$pkey' -o StrictHostKeyChecking=no -o IdentitiesOnly=yes");
 			}
 
 			if (file_exists($path . '/.git/HEAD')) {
